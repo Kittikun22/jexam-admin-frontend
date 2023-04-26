@@ -200,7 +200,7 @@ export default function ApproveTable({ allSlip, setAllSlip, filterSlip, approved
             <TablePagination
                 rowsPerPageOptions={[5, 10, 25, 100]}
                 component="div"
-                count={allSlip?.length}
+                count={switchSlips(filterSlip)?.length}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 onPageChange={handleChangePage}

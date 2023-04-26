@@ -14,7 +14,7 @@ import EditIcon from '@mui/icons-material/Edit';
 
 
 
-export default function ExamTable({ allExam }) {
+export default function ExamTable({ allExam, ALEVELExams, TGATExams, TPATExams, NETSATExams, filterExam }) {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
 
@@ -26,6 +26,23 @@ export default function ExamTable({ allExam }) {
         setRowsPerPage(+event.target.value);
         setPage(0);
     };
+
+    function switchExams(filterExam) {
+        switch (filterExam) {
+            case "all-exam":
+                return allExam
+            case "alevel-exam":
+                return ALEVELExams
+            case "tgat-exam":
+                return TGATExams
+            case "tpat-exam":
+                return TPATExams
+            case "netsat-exam":
+                return NETSATExams
+            default:
+                break
+        }
+    }
 
     return (
         <Paper sx={{ width: '100%', overflow: 'hidden' }}>
@@ -47,7 +64,7 @@ export default function ExamTable({ allExam }) {
                     </TableHead>
                     <TableBody>
 
-                        {allExam?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((val, key) => {
+                        {switchExams(filterExam)?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((val, key) => {
                             return (
                                 <TableRow
                                     key={key}
@@ -97,12 +114,11 @@ export default function ExamTable({ allExam }) {
                                     </TableCell>
 
                                     <TableCell align="center">
-                                        <Typography>{val.subject_name}</Typography>
-
+                                        <Typography>{val.category_name}</Typography>
                                     </TableCell>
 
                                     <TableCell align="center">
-                                        <Typography>{val.category_name}</Typography>
+                                        <Typography>{val.subject_name}</Typography>
                                     </TableCell>
 
                                     <TableCell align="center" >
@@ -135,7 +151,7 @@ export default function ExamTable({ allExam }) {
             <TablePagination
                 rowsPerPageOptions={[5, 10, 25, 100]}
                 component="div"
-                count={allExam?.length}
+                count={switchExams(filterExam)?.length}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 onPageChange={handleChangePage}

@@ -8,7 +8,7 @@ import ButtonGroup from '@mui/material/ButtonGroup';
 function Approve() {
 
   const [allSlip, setAllSlip] = useState()
-  const [filterSlip, setFilterSlip] = useState("all-Slip");
+  const [filterSlip, setFilterSlip] = useState("pending-Slip");
 
   const approvedSlips = allSlip?.filter((item) => item.status === "อนุมัติแล้ว");
   const rejectedSlips = allSlip?.filter((item) => item.status === "ไม่อนุมัติ");
@@ -40,26 +40,26 @@ function Approve() {
             }}
             onClick={() => setFilterSlip("all-Slip")}
           >
-            ทั้งหมด
+            ทั้งหมด({allSlip?.length})
           </Button>
           <Button
             sx={{
               background: filterSlip === 'pending-Slip' ? '#1976d2' : null,
               color: filterSlip === 'pending-Slip' ? '#fff' : '',
             }}
-            onClick={() => setFilterSlip("pending-Slip")}>รออนุมัติ</Button>
+            onClick={() => setFilterSlip("pending-Slip")}>รออนุมัติ({pendingSlips?.length})</Button>
           <Button
             sx={{
               background: filterSlip === 'approved-Slip' ? '#1976d2' : null,
               color: filterSlip === 'approved-Slip' ? '#fff' : '',
             }}
-            onClick={() => setFilterSlip("approved-Slip")}>อนุมัติแล้ว</Button>
+            onClick={() => setFilterSlip("approved-Slip")}>อนุมัติแล้ว({approvedSlips?.length})</Button>
           <Button
             sx={{
               background: filterSlip === 'rejected-Slip' ? '#1976d2' : null,
               color: filterSlip === 'rejected-Slip' ? '#fff' : '',
             }}
-            onClick={() => setFilterSlip("rejected-Slip")}>ไม่อนุมัติ</Button>
+            onClick={() => setFilterSlip("rejected-Slip")}>ไม่อนุมัติ({rejectedSlips?.length})</Button>
         </ButtonGroup>
 
       </Box>
