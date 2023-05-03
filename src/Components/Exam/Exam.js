@@ -6,10 +6,17 @@ import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import AddIcon from '@mui/icons-material/Add';
 import AddExam from './AddExam';
+import AddExamContent from './AddExamContent';
+import AddExamInfo from './AddExamInfo';
+import AddBluePrint from './AddBluePrint';
 
 function Exam() {
 
     const [openAddExam, setOpenAddExam] = useState(false)
+    const [openAddExamContent, setOpenAddExamContent] = useState(false)
+    const [openAddExamInfo, setOpenAddExamInfo] = useState(false)
+    const [openAddBluePrint, setOpenAddBluePrint] = useState(false)
+    const [selectExam, setSelectExam] = useState()
 
     const [allExam, setAllExam] = useState()
     const [filterExam, setFilterExam] = useState("all-exam")
@@ -25,10 +32,29 @@ function Exam() {
         })
     }, [])
 
+    const handleAddExamContent = (exam) => {
+        setSelectExam(exam)
+        setOpenAddExamContent(true)
+    }
+
+    const handleAddExamInfo = (exam) => {
+        setSelectExam(exam)
+        setOpenAddExamInfo(true)
+    }
+
+    const handleAddBluePrint = (exam) => {
+        setSelectExam(exam)
+        setOpenAddBluePrint(true)
+    }
+
     return (
 
         <>
             <AddExam openAddExam={openAddExam} setOpenAddExam={setOpenAddExam} />
+            <AddExamContent openAddExamContent={openAddExamContent} setOpenAddExamContent={setOpenAddExamContent} selectExam={selectExam} setSelectExam={setSelectExam} />
+            <AddExamInfo openAddExamInfo={openAddExamInfo} setOpenAddExamInfo={setOpenAddExamInfo} selectExam={selectExam} setSelectExam={setSelectExam} />
+            <AddBluePrint openAddBluePrint={openAddBluePrint} setOpenAddBluePrint={setOpenAddBluePrint} selectExam={selectExam} setSelectExam={selectExam} />
+
 
             <Stack spacing={2}>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -45,6 +71,9 @@ function Exam() {
                             sx={{
                                 background: filterExam === 'all-exam' ? '#1976d2' : null,
                                 color: filterExam === 'all-exam' ? '#fff' : '',
+                                "&:hover": {
+                                    color: '#069A8E'
+                                }
                             }}
                             onClick={() => setFilterExam("all-exam")}
                         >
@@ -54,24 +83,36 @@ function Exam() {
                             sx={{
                                 background: filterExam === 'netsat-exam' ? '#1976d2' : null,
                                 color: filterExam === 'netsat-exam' ? '#fff' : '',
+                                "&:hover": {
+                                    color: '#069A8E'
+                                }
                             }}
                             onClick={() => setFilterExam("netsat-exam")}>NETSAT({NETSATExams?.length})</Button>
                         <Button
                             sx={{
                                 background: filterExam === 'tgat-exam' ? '#1976d2' : null,
                                 color: filterExam === 'tgat-exam' ? '#fff' : '',
+                                "&:hover": {
+                                    color: '#069A8E'
+                                }
                             }}
                             onClick={() => setFilterExam("tgat-exam")}>TGAT({TGATExams?.length})</Button>
                         <Button
                             sx={{
                                 background: filterExam === 'tpat-exam' ? '#1976d2' : null,
                                 color: filterExam === 'tpat-exam' ? '#fff' : '',
+                                "&:hover": {
+                                    color: '#069A8E'
+                                }
                             }}
                             onClick={() => setFilterExam("tpat-exam")}>TPAT({TPATExams?.length})</Button>
                         <Button
                             sx={{
                                 background: filterExam === 'alevel-exam' ? '#1976d2' : null,
                                 color: filterExam === 'alevel-exam' ? '#fff' : '',
+                                "&:hover": {
+                                    color: '#069A8E'
+                                }
                             }}
                             onClick={() => setFilterExam("alevel-exam")}>A-LEVEL({ALEVELExams?.length})</Button>
                     </ButtonGroup>
@@ -96,6 +137,9 @@ function Exam() {
                     TPATExams={TPATExams}
                     NETSATExams={NETSATExams}
                     filterExam={filterExam}
+                    handleAddExamContent={handleAddExamContent}
+                    handleAddExamInfo={handleAddExamInfo}
+                    handleAddBluePrint={handleAddBluePrint}
                 />
             </Stack>
         </>

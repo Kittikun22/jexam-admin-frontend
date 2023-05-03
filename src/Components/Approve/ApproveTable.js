@@ -161,6 +161,7 @@ export default function ApproveTable({ allSlip, setAllSlip, filterSlip, approved
                                                     <Tooltip title="อนุมัติ">
                                                         <IconButton
                                                             sx={{
+                                                                transition: "all 0.25s ease",
                                                                 "&:hover": {
                                                                     color: 'green',
                                                                     scale: '1.3'
@@ -178,6 +179,7 @@ export default function ApproveTable({ allSlip, setAllSlip, filterSlip, approved
                                                             onClick={() => notApproveSlip(val)}
                                                         >
                                                             <CancelIcon sx={{
+                                                                transition: "all 0.25s ease",
                                                                 "&:hover": {
                                                                     color: '#FC2947'
                                                                 }

@@ -7,14 +7,14 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import { Box, Typography, Stack } from '@mui/material'
+import { Box, Typography, Stack, Tooltip } from '@mui/material'
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import EditIcon from '@mui/icons-material/Edit';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 
-
-export default function ExamTable({ allExam, ALEVELExams, TGATExams, TPATExams, NETSATExams, filterExam }) {
+export default function ExamTable({ allExam, ALEVELExams, TGATExams, TPATExams, NETSATExams, filterExam, handleAddExamContent, handleAddExamInfo, handleAddBluePrint }) {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
 
@@ -99,18 +99,105 @@ export default function ExamTable({ allExam, ALEVELExams, TGATExams, TPATExams, 
 
                                     <TableCell align="center">
                                         <Typography sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '150px' }}>{val.blueprint}</Typography>
+
+                                        {val.blueprint === null ?
+                                            <Tooltip title="เพิ่มโครงสร้างข้อสอบ">
+                                                <IconButton
+                                                    color='success'
+                                                    onClick={() => handleAddBluePrint(val)}
+                                                    sx={{
+                                                        transition: "all 0.25s ease",
+                                                        "&:hover": {
+                                                            scale: '1.3'
+                                                        }
+                                                    }} >
+                                                    <AddCircleIcon
+                                                    />
+                                                </IconButton>
+                                            </Tooltip>
+                                            :
+                                            <Tooltip title="แก้ไขโครงสร้างข้อสอบ">
+                                                <IconButton color='warning'
+                                                    sx={{
+                                                        transition: "all 0.25s ease",
+                                                        "&:hover": {
+                                                            scale: '1.3'
+                                                        }
+                                                    }}>
+                                                    <EditIcon
+                                                    />
+                                                </IconButton>
+                                            </Tooltip>
+                                        }
                                     </TableCell>
 
                                     <TableCell align="center">
                                         <Typography sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '150px' }}>
                                             {val.exam_info}
                                         </Typography>
+
+                                        {val.exam_info === null ?
+                                            <Tooltip title="เพิ่มข้อมูลข้อสอบ">
+                                                <IconButton color='success'
+                                                    onClick={() => handleAddExamInfo(val)}
+                                                    sx={{
+                                                        transition: "all 0.25s ease",
+                                                        "&:hover": {
+                                                            scale: '1.3'
+                                                        }
+                                                    }}>
+                                                    <AddCircleIcon
+                                                    />
+                                                </IconButton>
+                                            </Tooltip>
+                                            :
+                                            <Tooltip title="แก้ไขข้อมูลข้อสอบ">
+                                                <IconButton color='warning'
+                                                    sx={{
+                                                        transition: "all 0.25s ease",
+                                                        "&:hover": {
+                                                            scale: '1.3'
+                                                        }
+                                                    }}>
+                                                    <EditIcon />
+                                                </IconButton>
+                                            </Tooltip>
+                                        }
                                     </TableCell>
 
                                     <TableCell align="center">
                                         <Typography sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '150px' }}>
                                             {val.exam_content}
                                         </Typography>
+
+                                        {val.exam_content === null ?
+                                            <Tooltip title="เพิ่มเนื้อหาข้อสอบ">
+                                                <IconButton color='success'
+                                                    onClick={() => handleAddExamContent(val)}
+                                                    sx={{
+                                                        transition: "all 0.25s ease",
+                                                        "&:hover": {
+                                                            scale: '1.3'
+                                                        }
+                                                    }}>
+                                                    <AddCircleIcon
+                                                    />
+                                                </IconButton>
+                                            </Tooltip>
+                                            :
+                                            <Tooltip title="แก้ไขเนื้อหาข้อสอบ">
+                                                <IconButton
+                                                    color='warning'
+                                                    sx={{
+                                                        transition: "all 0.25s ease",
+                                                        "&:hover": {
+                                                            scale: '1.3'
+                                                        }
+                                                    }}>
+                                                    <EditIcon />
+                                                </IconButton>
+                                            </Tooltip>
+                                        }
                                     </TableCell>
 
                                     <TableCell align="center">
@@ -124,6 +211,7 @@ export default function ExamTable({ allExam, ALEVELExams, TGATExams, TPATExams, 
                                     <TableCell align="center" >
                                         <Stack direction='row'>
                                             <IconButton sx={{
+                                                transition: "all 0.25s ease",
                                                 "&:hover": {
                                                     color: '#FF8400',
                                                     scale: '1.3'
@@ -132,9 +220,9 @@ export default function ExamTable({ allExam, ALEVELExams, TGATExams, TPATExams, 
                                                 <EditIcon />
                                             </IconButton>
                                             <IconButton sx={{
+                                                transition: "all 0.25s ease",
                                                 "&:hover": {
-                                                    color: '#FC2947',
-                                                    scale: '1.3'
+                                                    color: '#FC2947'
                                                 }
                                             }}>
                                                 <CloseIcon />
@@ -157,6 +245,6 @@ export default function ExamTable({ allExam, ALEVELExams, TGATExams, TPATExams, 
                 onPageChange={handleChangePage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
             />
-        </Paper>
+        </Paper >
     );
 }

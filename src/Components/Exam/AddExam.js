@@ -12,7 +12,6 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import ImageIcon from '@mui/icons-material/Image';
-import UploadIcon from '@mui/icons-material/Upload';
 
 const initialState = {
     name: '',
@@ -36,8 +35,6 @@ function AddExam({ openAddExam, setOpenAddExam }) {
 
     const [file, setFile] = useState({})
     const [imagePreviewUrl, setImagePreviewUrl] = useState(null)
-    const [newImage, setNewImage] = useState(initialState);
-    const [uploadImageStatus, setUploadImageStatus] = useState(false)
 
     useEffect(() => {
         Axios.get("http://localhost:8333/getExamCategory").then((res) => {
@@ -50,6 +47,7 @@ function AddExam({ openAddExam, setOpenAddExam }) {
 
     const handleClose = () => {
         setOpenAddExam(false);
+        setNewExam(initialState)
     };
 
     const handleFile = async (e) => {
@@ -64,15 +62,24 @@ function AddExam({ openAddExam, setOpenAddExam }) {
         const formData = new FormData()
         formData.append('file', file)
         await Axios.post('http://localhost:8000/uploadExamPic', formData).then((res) => {
-            setNewImage({ ...newImage, image_src: res.data.image_src })
+            setNewExam({ ...newExam, pic: res.data.image_src })
         })
     }
 
     const onSubmit = async () => {
-        //
+        await Axios.post('http://localhost:8333/createNewExam', {
+            name: newExam.name,
+            detail: newExam.detail,
+            pic: newExam.pic,
+            amount: newExam.amount,
+            category_id: newExam.category_id,
+            subject_id: newExam.subject_id
+        }).then((res) => {
+            if (res.data.message === 'successfully') {
+                handleClose()
+            }
+        })
     }
-
-    console.log(newExam);
 
     return (
         <Dialog open={openAddExam} fullWidth="true" maxWidth="lg" >
@@ -100,7 +107,7 @@ function AddExam({ openAddExam, setOpenAddExam }) {
                             sx={{ alignSelf: 'center' }}
                         />
                     }
-
+                    {newExam.pic ? <a href={newExam.pic} target="_blank" rel="noreferrer"><Typography align="center" variant="body2">{newExam.pic}</Typography></a> : null}
                     <Button variant="contained" component="label" >
                         <ImageIcon /> เลือกรูปภาพ
                         <input hidden accept="image/*" multiple type="file" onChange={handleFile} />
@@ -131,13 +138,6 @@ function AddExam({ openAddExam, setOpenAddExam }) {
                         onChange={(e) => setNewExam({ ...newExam, amount: e.target.value })}
                     />
 
-                    <TextField
-                        size="small"
-                        variant="outlined"
-                        label="รูป"
-                        onChange={(e) => setNewExam({ ...newExam, pic: e.target.value })}
-                    />
-
                     <FormControl size="small">
                         <InputLabel>วิชา</InputLabel>
                         <Select
@@ -148,7 +148,7 @@ function AddExam({ openAddExam, setOpenAddExam }) {
                             {subject?.map((val, key) => {
                                 return (
                                     <MenuItem value={val.subject_id}>
-                                        {val.subject_name}
+                                        {val.subject_name === '' ? '-' : val.subject_name}
                                     </MenuItem>
                                 )
                             })}
@@ -180,6 +180,7 @@ function AddExam({ openAddExam, setOpenAddExam }) {
                 <Button
                     variant="contained"
                     color="success"
+                    onClick={onSubmit}
                 >
                     เพิ่ม
                 </Button>
